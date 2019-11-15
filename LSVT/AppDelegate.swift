@@ -20,6 +20,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Time period to update
     var timeFrameInMilliseconds: Int = 100
     
+    
+    static func dBFS_convertTo_dB (dBFSValue: Float) -> Float {
+        
+        
+        
+        var level:Float = 0.0
+        let peak_bottom:Float = -60.0 // dBFS -> -160..0   so it can be -80 or -60
+
+        if dBFSValue < peak_bottom {
+            level = 0.0
+        } else if dBFSValue >= 0.0 {
+            level = 1.0
+        } else {
+            let root:Float              =   2.0
+            let minAmp:Float            =   powf(10.0, 0.05 * peak_bottom)
+            let inverseAmpRange:Float   =   1.0 / (1.0 - minAmp)
+            let amp:Float               =   powf(10.0, 0.05 * dBFSValue)
+            let adjAmp:Float            =   (amp - minAmp) * inverseAmpRange
+            level = powf(adjAmp, 1.0 / root)
+        }
+        return level * 100
+    }
+    
+    
     // Sets queue to all zeros and setup recorder to listen and update queue
     func setup(audioRecorder: AVAudioRecorder) -> Void {
         for _ in 0...self.dataPointsToTrack {
@@ -32,8 +56,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         timer?.schedule(deadline: .now(), repeating: .milliseconds(timeFrameInMilliseconds), leeway: .milliseconds(10))
         timer?.setEventHandler { [weak self] in
             audioRecorder.updateMeters()
-            let decibel = audioRecorder.peakPower(forChannel: 0)
-            print(i, decibel)
+            let decibel = Float(AppDelegate.dBFS_convertTo_dB(dBFSValue: audioRecorder.peakPower(forChannel: 0)))
+            print(i, decibel, audioRecorder.isRecording)
             i = i + 1
             self?.addToQueue(data: decibel)
         }
@@ -48,17 +72,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
-        let audioSession = AVAudioSession.sharedInstance()
         
         let settings = [
-            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-            AVSampleRateKey: 44100,
-            AVNumberOfChannelsKey: 1,
-            AVEncoderAudioQualityKey:AVAudioQuality.high.rawValue
+            AVSampleRateKey : NSNumber(value: Float(44100.0) as Float),
+            AVFormatIDKey : NSNumber(value: Int32(kAudioFormatMPEG4AAC) as Int32),
+            AVNumberOfChannelsKey : NSNumber(value: 1 as Int32),
+            AVEncoderAudioQualityKey : NSNumber(value: Int32(AVAudioQuality.medium.rawValue) as Int32),
         ]
         
+        let audioSession = AVAudioSession.sharedInstance()
+
         do {
-            try audioSession.setCategory(.playAndRecord, mode: .default)
+            try audioSession.setCategory(AVAudioSession.Category.playAndRecord, mode: .default)
+            try audioSession.setActive(true)
+
             audioSession.requestRecordPermission({(granted: Bool) -> Void in
                 if granted {
                     print("permission granted");
@@ -67,13 +94,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             })
             
-            try audioSession.setActive(true)
 
-            let tmpDirURL = FileManager.default.temporaryDirectory
-            let audioRecorder = try AVAudioRecorder(url: tmpDirURL, settings: settings)
+            let tmpDirURL = NSURL.fileURL(withPath: NSTemporaryDirectory(), isDirectory: true)
+            let fileURL = tmpDirURL.appendingPathComponent("foo")
+            let file = fileURL.appendingPathExtension("bar")
+            let audioRecorder = try AVAudioRecorder(url: file, settings: settings)
+            
             audioRecorder.prepareToRecord()
             audioRecorder.record()
-            try audioSession.setActive(true)
             audioRecorder.isMeteringEnabled = true
             setup(audioRecorder: audioRecorder)
             
