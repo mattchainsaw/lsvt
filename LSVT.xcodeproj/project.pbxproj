@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,6 +15,7 @@
 		34DB52A3237F0AD2005B7D9F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34DB52A1237F0AD2005B7D9F /* LaunchScreen.storyboard */; };
 		34DB52AE237F0AD2005B7D9F /* LSVTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DB52AD237F0AD2005B7D9F /* LSVTTests.swift */; };
 		34DB52B9237F0AD2005B7D9F /* LSVTUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DB52B8237F0AD2005B7D9F /* LSVTUITests.swift */; };
+		C94D5E15D08549C785364377 /* Pods_LSVT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 328E36B72FE4747DEFB9EA0A /* Pods_LSVT.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		305D2ED5C69098BCEE2A500D /* Pods-LSVT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LSVT.debug.xcconfig"; path = "Target Support Files/Pods-LSVT/Pods-LSVT.debug.xcconfig"; sourceTree = "<group>"; };
+		328E36B72FE4747DEFB9EA0A /* Pods_LSVT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LSVT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		34DB5293237F0AD0005B7D9F /* LSVT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LSVT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34DB5296237F0AD0005B7D9F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		34DB5298237F0AD0005B7D9F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +52,7 @@
 		34DB52B4237F0AD2005B7D9F /* LSVTUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LSVTUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		34DB52B8237F0AD2005B7D9F /* LSVTUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSVTUITests.swift; sourceTree = "<group>"; };
 		34DB52BA237F0AD2005B7D9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4006F7446122351768FBCB65 /* Pods-LSVT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LSVT.release.xcconfig"; path = "Target Support Files/Pods-LSVT/Pods-LSVT.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C94D5E15D08549C785364377 /* Pods_LSVT.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +88,8 @@
 				34DB52AC237F0AD2005B7D9F /* LSVTTests */,
 				34DB52B7237F0AD2005B7D9F /* LSVTUITests */,
 				34DB5294237F0AD0005B7D9F /* Products */,
+				E1F806CE64921774B49835F3 /* Pods */,
+				4A23B8AFA3575B075E0EC677 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -136,6 +143,23 @@
 			path = LSVTUITests;
 			sourceTree = "<group>";
 		};
+		4A23B8AFA3575B075E0EC677 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				328E36B72FE4747DEFB9EA0A /* Pods_LSVT.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E1F806CE64921774B49835F3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				305D2ED5C69098BCEE2A500D /* Pods-LSVT.debug.xcconfig */,
+				4006F7446122351768FBCB65 /* Pods-LSVT.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,9 +167,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 34DB52BD237F0AD2005B7D9F /* Build configuration list for PBXNativeTarget "LSVT" */;
 			buildPhases = (
+				C4F409C3DF4D84D93B3F0B6C /* [CP] Check Pods Manifest.lock */,
 				34DB528F237F0AD0005B7D9F /* Sources */,
 				34DB5290237F0AD0005B7D9F /* Frameworks */,
 				34DB5291237F0AD0005B7D9F /* Resources */,
+				F1EB9446F51ED3D11C97AC1B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -261,6 +287,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C4F409C3DF4D84D93B3F0B6C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LSVT-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F1EB9446F51ED3D11C97AC1B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LSVT/Pods-LSVT-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LSVT/Pods-LSVT-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LSVT/Pods-LSVT-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		34DB528F237F0AD0005B7D9F /* Sources */ = {
@@ -432,6 +500,7 @@
 		};
 		34DB52BE237F0AD2005B7D9F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 305D2ED5C69098BCEE2A500D /* Pods-LSVT.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -452,6 +521,7 @@
 		};
 		34DB52BF237F0AD2005B7D9F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4006F7446122351768FBCB65 /* Pods-LSVT.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

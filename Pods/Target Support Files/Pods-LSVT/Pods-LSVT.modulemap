@@ -1,0 +1,6 @@
+framework module Pods_LSVT {
+  umbrella header "Pods-LSVT-umbrella.h"
+
+  export *
+  module * { export * }
+}
