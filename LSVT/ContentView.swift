@@ -17,7 +17,6 @@ struct ContentView: View {
                 LineChartSwiftUI().frame(width: p.size.width, height: p.size.height, alignment: .center)
             }
         }
-//        Text("Hello, World!")
     }
 }
 
@@ -32,25 +31,34 @@ class Decibel {
     var timer: DispatchSourceTimer?
     var queue: [Float] = []
     var lineChart = LineChartView()
+    var line1: LineChartDataSet = LineChartDataSet()
+    var line2: LineChartDataSet = LineChartDataSet()
+    var line3: LineChartDataSet = LineChartDataSet()
 
     
     // # of Data points to track
-    var dataPointsToTrack: Int = 10
+    var dataPointsToTrack: Int = 30
     // Time period to update
-    var timeFrameInMilliseconds: Int = 500
+    var timeFrameInMilliseconds: Int = 100
+    var maxDecibel: Double = 120.0
+    var targetMaxDecibel: Double = 80.0
+    var targetMinDecibel: Double = 60.0
     
     func getData() -> LineChartData {
         var dataPoints: [ChartDataEntry] = []
+
         for count in (0..<dataPointsToTrack) {
             dataPoints.append(ChartDataEntry.init(x: Double(count), y: Double(self.queue[count])))
          }
-        let set = LineChartDataSet(entries: dataPoints, label: "Debicel")
+        let set = LineChartDataSet(entries: dataPoints)
         set.lineWidth = 2.5
         set.drawCirclesEnabled = false
         set.setColor(UIColor.black)
-        let dataSets = [set]
+        
+        let dataSets = [set, line3, line2, line1]
         let data = LineChartData(dataSets: dataSets)
-        data.setValueFont(.systemFont(ofSize: 7, weight: .light))
+        data.setDrawValues(false)
+        
         return data
     }
     
@@ -74,7 +82,7 @@ class Decibel {
             let adjAmp:Float            =   (amp - minAmp) * inverseAmpRange
             level = powf(adjAmp, 1.0 / root)
         }
-        return level * 100
+        return level * 120
     }
     
     
@@ -91,7 +99,6 @@ class Decibel {
         timer?.setEventHandler { [weak self] in
             audioRecorder.updateMeters()
             let decibel = Float(Decibel.dBFS_convertTo_dB(dBFSValue: audioRecorder.peakPower(forChannel: 0)))
-            print(i, decibel, audioRecorder.isRecording)
             i = i + 1
             self?.addToQueue(data: decibel)
             DispatchQueue.main.async {
@@ -108,6 +115,35 @@ class Decibel {
     }
     
     func initialize() {
+        
+        var linePoints1: [ChartDataEntry] = []
+        var linePoints2: [ChartDataEntry] = []
+        var linePoints3: [ChartDataEntry] = []
+
+        for count in (0..<dataPointsToTrack) {
+            linePoints1.append(ChartDataEntry.init(x: Double(count), y: targetMinDecibel))
+            linePoints2.append(ChartDataEntry.init(x: Double(count), y: targetMaxDecibel))
+            linePoints3.append(ChartDataEntry.init(x: Double(count), y: maxDecibel))
+         }
+        
+        line1 = LineChartDataSet(linePoints1)
+        line1.fillColor = UIColor.yellow
+        line1.drawFilledEnabled = true
+        line1.drawCirclesEnabled = false
+        line1.setColor(UIColor.black)
+        
+        line2 = LineChartDataSet(linePoints2)
+        line2.fillColor = UIColor.green
+        line2.drawFilledEnabled = true
+        line2.drawCirclesEnabled = false
+        line2.setColor(UIColor.black)
+        
+        line3 = LineChartDataSet(linePoints3)
+        line3.fillColor = UIColor.red
+        line3.drawFilledEnabled = true
+        line3.drawCirclesEnabled = false
+        line3.setColor(UIColor.black)
+        
         let settings = [
             AVSampleRateKey : NSNumber(value: Float(44100.0) as Float),
             AVFormatIDKey : NSNumber(value: Int32(kAudioFormatMPEG4AAC) as Int32),
@@ -143,10 +179,17 @@ class Decibel {
             print("Unable start recording", err)
         }
         
-        lineChart.leftAxis.axisMaximum = 100
-        lineChart.leftAxis.axisMinimum = 40
-        lineChart.rightAxis.axisMinimum = 40
-        lineChart.rightAxis.axisMaximum = 100
+        lineChart.leftAxis.axisMaximum = 120
+        lineChart.leftAxis.axisMinimum = 0
+        lineChart.rightAxis.axisMinimum = 0
+        lineChart.rightAxis.axisMaximum = 120
+        lineChart.drawGridBackgroundEnabled = true
+        lineChart.xAxis.drawGridLinesEnabled = false
+        lineChart.xAxis.drawLabelsEnabled = false
+        lineChart.rightAxis.drawLabelsEnabled = false
+        lineChart.rightAxis.drawGridLinesEnabled = false
+        lineChart.leftAxis.drawGridLinesEnabled = false
+        lineChart.legend.enabled = false
     }
 }
 
